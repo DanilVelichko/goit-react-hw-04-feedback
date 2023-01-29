@@ -9,8 +9,6 @@ export default function Counter() {
   const [ neutral, setNeutral ] = useState(0);
   const [ bad, setBad ] = useState(0);
 
-  let positivePercentage = 0;
-  let total = 0;
 
   const handleButtons = e => {
     const clickResult = e.target.textContent;
@@ -33,16 +31,16 @@ export default function Counter() {
   };
 
   const countTotalFeedback = () => {
-    total = good + neutral + bad;
-    return total;
+return good + neutral + bad;
+   
   };
 
   const countPositiveFeedbackPercentage = () => {
-    if (total === 0) {
-      return (positivePercentage = 0);
+    if (countTotalFeedback() === 0) {
+      return 0;
     }
-    if (total > 0) {
-      return (positivePercentage = Math.round((good / total) * 100));
+    else {
+      return Math.round((good / countTotalFeedback()) * 100);
     }
   };
 
@@ -56,12 +54,12 @@ export default function Counter() {
       </Section>
 
       <Section title="Statistics">
-        {good + neutral + bad > 0 ? (
+        {countTotalFeedback() > 0 ? (
           <Statistics
             countTotalFeedback={countTotalFeedback}
             countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
             state={{ good, neutral, bad }}
-            positivePercentage={positivePercentage}
+            positivePercentage={countPositiveFeedbackPercentage}
           />
         ) : (
           <Notification message="There is no feedback" />
